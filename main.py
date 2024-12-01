@@ -1,14 +1,16 @@
 import json
 import random
+from typing import List, Dict
 
 BOOKS_FILE = 'library.json'
 
 
 class Library:
-    def __init__(self):
+    def __init__(self) -> None:
+        """Инициализация библиотеки и загрузка данных из файла."""
         self.books = self.load_from_file()
 
-    def load_from_file(self):
+    def load_from_file(self) -> List[Dict[str, str]]:
         """Загрузить данные из JSON-файла."""
         try:
             with open(BOOKS_FILE, 'r', encoding='utf-8') as f:
@@ -17,19 +19,19 @@ class Library:
             print('Создана база данных.')
             return []
 
-    def save_to_file(self):
+    def save_to_file(self) -> None:
         """Сохранить данные в JSON-файл."""
         with open(BOOKS_FILE, 'w', encoding='utf-8') as f:
             json.dump(self.books, f, ensure_ascii=False, indent=4)
 
-    def generate_unique_id(self):
+    def generate_unique_id(self) -> int:
         """Генерирует уникальный 10-значный ID."""
         while True:
             unique_id = random.randint(1000000000, 9999999999)
             if not any(book['id'] == unique_id for book in self.books):
                 return unique_id
 
-    def add_book(self):
+    def add_book(self) -> None:
         """Добавить книгу с валидацией данных."""
         while True:
             title = input('Введите название книги: ').strip()
@@ -68,8 +70,8 @@ class Library:
         self.save_to_file()
         print(f'Книга "{title}" успешно добавлена!')
 
-    def delete_book(self):
-        """Удалить книгу."""
+    def delete_book(self) -> None:
+        """Удалить книгу по ID."""
         try:
             book_id = int(input('Введите ID книги для удаления: '))
             book = next(
@@ -85,8 +87,8 @@ class Library:
         except ValueError:
             print('Ошибка: ID должен быть числом.')
 
-    def search_books(self):
-        """Поиск книг."""
+    def search_books(self) -> None:
+        """Поиск книг по полям: title, author или year."""
         field = input(
             'По какому полю искать (title/author/year)? '
         ).strip().lower()
@@ -118,8 +120,8 @@ class Library:
         else:
             print('Книги не найдены.')
 
-    def list_books(self):
-        """Отобразить все книги."""
+    def list_books(self) -> None:
+        """Отобразить все книги в библиотеке."""
         if self.books:
             print('Список книг:')
             for book in self.books:
@@ -129,8 +131,8 @@ class Library:
         else:
             print('Книг нет.')
 
-    def update_status(self):
-        """Изменить статус книги."""
+    def update_status(self) -> None:
+        """Изменить статус книги (в наличии или выдана)."""
         while True:
             try:
                 book_id = int(input('Введите ID книги: '))
@@ -169,11 +171,12 @@ class Library:
 
 
 class LibraryApp:
-    def __init__(self):
+    def __init__(self) -> None:
+        """Инициализация приложения и создание экземпляра библиотеки."""
         self.library = Library()
 
-    def main_menu(self):
-        """Главная функция приложения."""
+    def main_menu(self) -> None:
+        """Главное меню приложения с выбором действий пользователем."""
         while True:
             print("\n" + "=" * 30)
             print("            МЕНЮ           ")
@@ -185,10 +188,8 @@ class LibraryApp:
             print("  5. Изменить статус книги")
             print("  6. Выйти")
             print("=" * 30)
-
             choice = input("Выберите действие (1-6): ").strip()
             print("=" * 30)
-
             if choice == "1":
                 print("Добавление новой книги...")
                 self.library.add_book()
