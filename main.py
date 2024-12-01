@@ -2,7 +2,7 @@ import json
 import random
 from typing import List, Dict
 
-BOOKS_FILE = 'library.json'
+from utils import BOOKS_FILE
 
 
 class Library:
