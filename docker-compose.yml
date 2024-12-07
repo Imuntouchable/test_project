@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  backend:
+    build: /form_template_app
+    ports:
+      - "8000:8000"
